@@ -1,0 +1,43 @@
+body {
+    background-color: #111;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #112240;
+    color: #fff;
+}
+
+.other-link {
+    margin-top: 35px;
+}
+
+.container {
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #1a3048;
+    border-radius: 10px;
+    padding: 20px;
+    opacity: 1;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+    background-color: #1a3048;
+    color: #fff;
+    border: 2px solid #3182ce;
+    border-radius: 5px;
+    padding: 8px;
+    transition: background-color 0.3s ease;
+    /* Add smooth transition */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    background-color: #112240; 
+    color: #fff
+}

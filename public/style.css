@@ -1,0 +1,26 @@
+body {
+    background-color: #111;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    background-color: #112240;
+    color: #fff;
+}
+
+.navbar {
+    background-color: #1c4067 !important;
+}
+
+.dropdown-menu {
+    background-color: #0d4073;
+    color: #ffffff;
+}
+
+.dropdown-menu a {
+    color: #ffffff;
+}
+
+.dropdown-menu a:hover {
+    background-color: #0e4d8c;
+    color: #ffffff;
+}
