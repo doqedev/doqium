@@ -916,7 +916,7 @@ async function sendWebAlert(req, service, causeCode){
     ]
     const cause = causes[(causeCode && causeCode - 1) || undefined]
     let ip = (req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress)
-    if(ip == '72.195.196.220'){
+    if(ip == process.env.ip){
         ip = 'REDACTED'
     }
     const useragent = req.headers['user-agent']
@@ -1042,19 +1042,24 @@ bot.on('interactionCreate', async (inter) => {
     }
 })
 
+function isVersionSupported(ver){
+    return getVersions().supported.includes(ver)
+}
+
 app.get('/server/:jobId', express.json(), logAllUsers('Server Check', true), logAllRequestsifNotRoblox('Server Check', true), async (req, res) => {
-    const curServ = servers.find(srv => srv.jobId == req.params.jobId)
     if(!req.body.version) return res.json({
         success: false,
         error: "No semantic versioning is provided."
     });
 
-    const supported = getVersions().supported.includes(req.body.version)
+    const supported = isVersionSupported(req.body.version)
 
     if(!supported) return res.json({
         success: false,
         error: "This version of doqium is not supported."
     });
+
+    const curServ = servers.find(srv => srv.jobId == req.params.jobId)
 
     if(curServ){
         if(curServ.isStudio) return res.json({available: true});
@@ -1100,6 +1105,18 @@ function logAllRequestsifNotRoblox(service, autoCancel){
 }
 
 app.post('/servers/:jobId', logAllUsers('Server Creation', true), logAllRequestsifNotRoblox('Server Creation', true), async (req, res) => {
+    if(!req.body.version) return res.json({
+        success: false,
+        error: "No semantic versioning is provided."
+    });
+
+    const supported = isVersionSupported(req.body.version)
+
+    if(!supported) return res.json({
+        success: false,
+        error: "This version of doqium is not supported."
+    });
+
     const curServ = servers.find(srv => srv.jobId == req.params.jobId)
     if(curServ && req.params.jobId != "studio") return res.status(409).json({message: "Conflict", code: 409})
     const key = uuidv4()

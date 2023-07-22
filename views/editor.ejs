@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lua Editor</title>
+    <!-- Include the Ace editor library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <style>
+        #editor {
+            width: 500px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="editor"></div>
+
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/tomorrow_night_blue");
+        editor.renderer.setShowGutter(true);
+        editor.session.setUseWorker(false);
+        editor.session.setMode("ace/mode/lua");
+        
+
+        var luaCode = localStorage.getItem('code') || `print("Hello World!")`;
+
+        editor.setValue(luaCode, 1);
+
+        function getCode() {
+            return editor.getValue();
+        }
+
+        function runCode() {
+            var code = getCode();
+            try {
+                localStorage.setItem('')
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+
+</html>

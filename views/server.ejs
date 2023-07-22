@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Doqium - Server</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .cont {
+            margin-top: 38vh;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+        }
+        .breadcrumb .active {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <div class="navbar-brand">doqium</div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home"><i class="fa-solid fa-house"></i> Home</a>
+                    </li>
+                    <% if (user.permissions>= 2) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/globalban"><i class="fa-solid fa-ban"></i> Global Ban</a>
+                        </li>
+                        <% } %>
+                    <% if (user.permissions>= 1) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/announce"><i class="fa-solid fa-bullhorn"></i> Global Announcement</a>
+                        </li>
+                    <% } %>
+                    <% if (user.permissions>= 1) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/rf"><i class="fa-solid fa-flag"></i> Require Flagger</a>
+                        </li>
+                    <% } %>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/invite" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-end" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <%= user.username %>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/logout" target="_blank">Log out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cont">
+        <button class="btn btn-primary" type="submit" id="rexec">Remote Executor</button>
+    </div>    
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(() => {
+            $("#rexec").click(() => {
+                window.location.href = window.location.href + `${window.location.href.endsWith('/') ? '' : '/'}executor`
+            })
+        })
+    </script>
+
+</body>
+
+</html>
