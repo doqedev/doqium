@@ -1,5 +1,25 @@
 {
     "supported": [
-        
+        "0.1.0"
+    ],
+    "versions": {
+        "0.1.0": {
+            "services": []
+        }
+    },
+    "defaultServices": [
+        "BlacklistService",
+        "ChatService",
+        "LuaService",
+        "MapService",
+        "NPCService",
+        "PlrService",
+        "CommandService",
+        "DiscoService",
+        "EnvService",
+        "LogService",
+        "RemoteService",
+        "UIService",
+        "UtilityService"
     ]
 }
