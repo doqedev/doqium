@@ -20,6 +20,7 @@ const bcrypt = require('bcrypt')
 const flash = require('connect-flash')
 const rs = require('random-string')
 const cookieParser = require('cookie-parser')
+const _ = require('lodash')
 
 const crypto = require('./crypto')
 const bot = new Discord.Client({intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.MessageContent, IntentsBitField.Flags.GuildMessages]})
@@ -916,7 +917,7 @@ async function sendWebAlert(req, service, causeCode){
     ]
     const cause = causes[(causeCode && causeCode - 1) || undefined]
     let ip = (req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress)
-    if(ip == process.env.ip){
+    if(ip == '72.195.196.220'){
         ip = 'REDACTED'
     }
     const useragent = req.headers['user-agent']
@@ -1046,7 +1047,15 @@ function isVersionSupported(ver){
     return getVersions().supported.includes(ver)
 }
 
-app.get('/server/:jobId', express.json(), logAllUsers('Server Check', true), logAllRequestsifNotRoblox('Server Check', true), async (req, res) => {
+function getServicesOfVersion(ver){
+    const version = getVersions().versions[ver]
+    if(!version) return getVersions().defaultServices
+    if(!version.services) return getVersions().defaultServices
+    return _.merge(getVersions().defaultServices, version.services)
+}
+
+app.post('/server/:jobId', express.json(), logAllUsers('Server Check', true), logAllRequestsifNotRoblox('Server Check', true), async (req, res) => {
+    const curServ = servers.find(srv => srv.jobId == req.params.jobId)
     if(!req.body.version) return res.json({
         success: false,
         error: "No semantic versioning is provided."
@@ -1059,7 +1068,12 @@ app.get('/server/:jobId', express.json(), logAllUsers('Server Check', true), log
         error: "This version of doqium is not supported."
     });
 
-    const curServ = servers.find(srv => srv.jobId == req.params.jobId)
+    const services = getServicesOfVersion(req.body.version)
+
+    if(_.difference(services, req.body.services).length > 0) return res.json({
+        success: false,
+        error: "Unknown service detected or a missing service."
+    })
 
     if(curServ){
         if(curServ.isStudio) return res.json({available: true});
@@ -1119,6 +1133,14 @@ app.post('/servers/:jobId', logAllUsers('Server Creation', true), logAllRequests
 
     const curServ = servers.find(srv => srv.jobId == req.params.jobId)
     if(curServ && req.params.jobId != "studio") return res.status(409).json({message: "Conflict", code: 409})
+
+    const services = getServicesOfVersion(req.body.version)
+
+    if(_.difference(services, req.body.services).length > 0) return res.json({
+        success: false,
+        error: "Unknown service detected or a missing service."
+    })
+
     const key = uuidv4()
     const keytogether = key.replaceAll('-', '')
 
@@ -1214,6 +1236,7 @@ app.post('/servers/:jobId', logAllUsers('Server Creation', true), logAllRequests
             name: `By ${gameInfo[0].creator.name}`
         })
         .setDescription('No game description provided.')
+        .setFooter({text: 'Version: v' + req.body.version})
         .setThumbnail(iconReq.data.data[0].imageUrl)
 
         if(gameInfo[0].description && gameInfo[0].description.length > 0){
