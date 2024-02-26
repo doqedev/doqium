@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 const algo = 'aes-192-cbc'
-const password = 'ILikeDogsVeryMuch4427ButIDontKnowButDogsAreFlyingInMyRoomLikeCasperTheGhost69420'
-const salt = 'SaltIsVeryTastingBadlyButIReallyHateItSoMuchItDisgustsMe240WhyAreYouLookingIntoMyCodePeasant69420'
+const password = 'jdsakljfgdhuio3qej21isy8921udj21shu1ysiou8i2s289su1829su1uhfua09udhui'
+const salt = 'y9s812uhdsu21yd89idyu21y8e9iud9w3fd2udiu93hduhsui9urhufhdudshui'
 
 const encrypt = (str) => {
     let key = crypto.scryptSync(password, salt, 24);
