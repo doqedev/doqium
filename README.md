@@ -1,3 +1,7 @@
+# !!bad code!!
+decided to set the github to public so like here u go
+this was made a year ago
+
 # doqium
 
 this used to be a web executor for a ROBLOX game, but now it is a remote admin with it's own global ban system, web panel, script flag, etc!
