@@ -1,6 +1,7 @@
 # !!bad code!!
 decided to set the github to public so like here u go
-this was made a year ago
+
+this was made a year ago where like i didnt know anything about webdesign or backend that much
 
 # doqium
 
